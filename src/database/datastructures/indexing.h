@@ -5,6 +5,7 @@
 #ifndef CRACKINGTHECODINGINTERVIEW_DATABASES_INDEXING_H_
 #define CRACKINGTHECODINGINTERVIEW_DATABASES_INDEXING_H_
 // -------------------------------------------------------------------------------------
+#include <cstdint>
 #include "vector"
 // -------------------------------------------------------------------------------------
 typedef uint32_t page_id_t;
