@@ -8,3 +8,6 @@ This is a database implementation to research certain aspects in the pipeline. H
 - Clock Replacement
 # INDEXING
 The indexing is done via either a simple B-Tree implementation or when you will use range scans a B+-Tree implementation.
+# STORAGE
+- row_storage (OLTP)
+- column_storage (OLAP)
