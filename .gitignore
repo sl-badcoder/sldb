@@ -1,32 +1,40 @@
-# Prerequisites
-*.d
+# Ignore CMake build files
+CMakeCache.txt
+CMakeFiles/
+CMakeScripts/
+Makefile
+cmake_install.cmake
+install/
 
-# Compiled Object files
-*.slo
-*.lo
+# Ignore build directories
+build/
+Debug/
+Release/
+out/
+
+# Ignore object files and executable binaries
 *.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
+*.a
 *.so
 *.dylib
-*.dll
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
 *.exe
 *.out
 *.app
+
+# Ignore IDE-specific files
+.vscode/
+.idea/
+*.user
+*.userosscache
+*.suo
+*.swp
+*.iml
+
+# Ignore OS-specific files
+.DS_Store         # macOS
+Thumbs.db         # Windows
+
+# Ignore backup files
+*~
+*.bak
+*.tmp
