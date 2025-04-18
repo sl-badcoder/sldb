@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BackendCodeEditorSettings">
+    <option name="/Default/Housekeeping/GlobalSettingsUpgraded/IsUpgraded/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Reformat/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/ShortenQualifiedReferences/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Applicability/=Live/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Applicability/=Live/@EntryIndexRemoved" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Scope/=F6696F8185506F41B9C4252540BE9C18/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Scope/=F6696F8185506F41B9C4252540BE9C18/Type/@EntryValue" value="InCppFile" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Text/@EntryValue" value="// ---------- $NAME$ ----------" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Field/=NAME/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Field/=NAME/Order/@EntryValue" value="0" type="long" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Description/@EntryValue" value="Section Separator" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=FC94D014672750478A0460B294286609/Shortcut/@EntryValue" value="sep" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=3264A0A740E8EC409882B47CAD4456B8/@KeyIndexDefined" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=3264A0A740E8EC409882B47CAD4456B8/Reformat/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=3264A0A740E8EC409882B47CAD4456B8/ShortenQualifiedReferences/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=3264A0A740E8EC409882B47CAD4456B8/Applicability/=Live/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=3264A0A740E8EC409882B47CAD4456B8/Applicability/=Live/@EntryIndexRemoved" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=3264A0A740E8EC409882B47CAD4456B8/Scope/=F6696F8185506F41B9C4252540BE9C18/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=3264A0A740E8EC409882B47CAD4456B8/Scope/=F6696F8185506F41B9C4252540BE9C18/Type/@EntryValue" value="InCppFile" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/Reformat/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/ShortenQualifiedReferences/@EntryValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/Applicability/=Live/@EntryIndexedValue" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/Applicability/=Live/@EntryIndexRemoved" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/Scope/=F6696F8185506F41B9C4252540BE9C18/@KeyIndexDefined" value="true" type="bool" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/Scope/=F6696F8185506F41B9C4252540BE9C18/Type/@EntryValue" value="InCppFile" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/Shortcut/@EntryValue" value="lsep" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/Text/@EntryValue" value="// -------------------------------------------------------------------------------------" type="string" />
+    <option name="/Default/PatternsAndTemplates/LiveTemplates/Template/=B95BCAED8699AE45892373492B975A03/Description/@EntryValue" value="long separator" type="string" />
+  </component>
+</project>
