@@ -38,3 +38,7 @@ Thumbs.db         # Windows
 *~
 *.bak
 *.tmp
+
+
+# Ignore database files
+*.db
