@@ -12,7 +12,6 @@
 #include <cstdio>
 #include <memory>
 #include <stdexcept>
-
 //--------------------------------------------------------------------------------------
 class File
 {
@@ -21,7 +20,7 @@ public:
     {
         if (write)
         {
-            if ((file = std::fopen(file_name, "r+b")) == NULL)
+            if ((file = std::fopen(file_name, "a+b")) == NULL)
             {
                 std::perror("File couldn't open");
                 return;
@@ -71,7 +70,7 @@ public:
         fwrite(src, sizeof(char), size, file);
     }
 
-    char* get_file_name()
+    [[nodiscard]] char* get_file_name()
     {
         return file_name;
     }
