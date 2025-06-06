@@ -44,9 +44,9 @@ SlottedPage* BufferPoolManager::fetchPage(page_id_t page_id)
 
     auto page = std::make_unique<SlottedPage>(page_id);
 
+
     off_t offset = page_id * SlottedPage::PAGE_SIZE;
-    lseek(disk_file_fd_, offset, SEEK_SET);
-    read(disk_file_fd_, page->getData(), SlottedPage::PAGE_SIZE);
+    file.read_block(offset, SlottedPage::PAGE_SIZE, page->getData());
 
     frame->setPage(std::move(page));
     page->incrementPinCount();

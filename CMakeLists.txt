@@ -19,6 +19,8 @@ add_executable(SLDB
         src/storage/advanced_frame.h
         src/storage/slotted_page.cpp
         src/database/buffermanager/buffer_replacement.cpp
+        include/File.h
+        tests/tester.hpp
 )
 
 # Add the include directory to the target

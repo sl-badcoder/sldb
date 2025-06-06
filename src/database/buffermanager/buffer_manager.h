@@ -9,6 +9,7 @@
 #include "src/database/buffermanager/buffer_replacement.h"
 #include "src/storage/basic_frame.h"
 #include "src/storage/slotted_page.h"
+#include "File.h"
 // -------------------------------------------------------------------------------------
 #include <unordered_map>
 #include <vector>
@@ -21,7 +22,7 @@
 // -------------------------------------------------------------------------------------
 static constexpr int INVALID_FILE_FD = -1;
 constexpr size_t DEFAULT_POOL_SIZE = 1024;
-const std::string DEFAULT_DB_FILENAME = "sldb.db";
+char* DEFAULT_DB_FILENAME = "sldb.db";
 // -------------------------------------------------------------------------------------
 inline std::unique_ptr<ReplacementStrategy> createReplacementStrategy(BUFFER_REPLACEMENT strategy)
 {
@@ -46,22 +47,22 @@ class BufferPoolManager
 {
 private:
     //! Constructor
-    BufferPoolManager(size_t pool_size, const std::string& db_file_name,
-                      BUFFER_REPLACEMENT strategy = BUFFER_REPLACEMENT::LRU)
+    BufferPoolManager(size_t pool_size, char* db_file_name,
+                      BUFFER_REPLACEMENT strategy = BUFFER_REPLACEMENT::LRU): file(db_file_name, true)
     {
         pool_size_ = pool_size;
         frames_.reserve(pool_size);
         db_file_name_ = db_file_name;
         replacer_ = createReplacementStrategy(strategy);
         next_page_id_ = 0;
-        disk_file_fd_ = INVALID_FILE_FD;
 
         for (size_t i{}; i < pool_size; i++)
         {
             frames_.push_back(std::make_unique<Frame>());
             free_list_.push_back(frames_[i].get());
         }
-    };
+    }
+    ;
     // Static instance variable
     static BufferPoolManager* instance_;
     static std::mutex singleton_mutex_;
@@ -98,7 +99,7 @@ public:
     }
 
     // Initialize singleton with specific parameters
-    static void initInstance(size_t pool_size, const std::string& db_file_name,
+    static void initInstance(size_t pool_size, char* db_file_name,
                            BUFFER_REPLACEMENT strategy = BUFFER_REPLACEMENT::LRU) {
         std::lock_guard<std::mutex> lock(singleton_mutex_);
         if (instance_ != nullptr) {
@@ -145,7 +146,7 @@ private:
 
     // For accessing the actual disk file
     std::string db_file_name_;
-    int disk_file_fd_;
+    File file;
 
     // For managing page IDs
     page_id_t next_page_id_;
