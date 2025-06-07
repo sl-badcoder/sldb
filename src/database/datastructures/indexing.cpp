@@ -5,7 +5,6 @@
 #include "src/database/buffermanager/buffer_manager.h"
 // -------------------------------------------------------------------------------------
 #include "indexing.h"
-#include <memory>
 // -------------------------------------------------------------------------------------
 BTreeNode::BTreeNode(const NodeType type, const int degree): type(type), degree(degree),
                                                              parent_page_id(INVALID_PAGE_ID),

@@ -20,7 +20,7 @@ public:
     {
         if (write)
         {
-            if ((file = std::fopen(file_name, "a+b")) == NULL)
+            if ((file = std::fopen(file_name, "r+b")) == NULL)
             {
                 std::perror("File couldn't open");
                 return;
@@ -60,7 +60,6 @@ public:
         fseek(file, offset, SEEK_SET);
         if (file->_flags == 0)
         {
-            std::cout << "File is read only" << std::endl;
             return;
         }
         if(feof(file))
