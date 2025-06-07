@@ -22,7 +22,7 @@
 // -------------------------------------------------------------------------------------
 static constexpr int INVALID_FILE_FD = -1;
 constexpr size_t DEFAULT_POOL_SIZE = 1024;
-char* DEFAULT_DB_FILENAME = "sldb.db";
+//char* DEFAULT_DB_FILENAME = "sldb.db";
 // -------------------------------------------------------------------------------------
 inline std::unique_ptr<ReplacementStrategy> createReplacementStrategy(BUFFER_REPLACEMENT strategy)
 {
@@ -92,7 +92,7 @@ public:
             std::lock_guard<std::mutex> lock(singleton_mutex_);
             if (instance_ == nullptr) {
                 // Default parameters - you can customize these or make them configurable
-                instance_ = new BufferPoolManager(DEFAULT_POOL_SIZE, DEFAULT_DB_FILENAME);
+                instance_ = new BufferPoolManager(DEFAULT_POOL_SIZE, "sldb.db");
             }
         }
         return instance_;
