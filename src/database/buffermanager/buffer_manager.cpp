@@ -91,9 +91,7 @@ bool BufferPoolManager::flushPage(page_id_t page_id)
     SlottedPage* page = frame->getPage();
 
     off_t offset = page_id * SlottedPage::PAGE_SIZE;
-    lseek(disk_file_fd_, offset, SEEK_SET);
-    write(disk_file_fd_, page->getData(), SlottedPage::PAGE_SIZE);
-
+    file.write_block(page->getData(), offset, SlottedPage::PAGE_SIZE);
     page->setDirty(false);
 
     return true;
@@ -180,8 +178,7 @@ bool BufferPoolManager::evictPage(Frame* frame)
     if (page->isDirty())
     {
         off_t offset = page_id * SlottedPage::PAGE_SIZE;
-        lseek(disk_file_fd_, offset, SEEK_SET);
-        write(disk_file_fd_, page->getData(), SlottedPage::PAGE_SIZE);
+        file.write_block(page->getData(), offset, SlottedPage::PAGE_SIZE);;
     }
 
     page_table_.erase(page_id);
