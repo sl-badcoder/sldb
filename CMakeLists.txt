@@ -20,10 +20,35 @@ add_executable(SLDB
         src/storage/slotted_page.cpp
         src/database/buffermanager/buffer_replacement.cpp
         include/File.h
-        tests/tester.hpp
 )
 
+# include google tests
+include(FetchContent)
+FetchContent_Declare(
+        googletest
+        URL https://github.com/google/googletest/archive/7e2c425db2c2e024b2807bfe6d386f4ff068d0d6.zip
+)
+
+FetchContent_MakeAvailable(googletest)
 # Add the include directory to the target
-target_include_directories(SLDB PRIVATE include)
+target_include_directories(SLDB PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_include_directories(SLDB PRIVATE ${PROJECT_SOURCE_DIR})
 target_include_directories(SLDB PRIVATE src/)
+target_include_directories(SLDB PRIVATE
+        ${gtest_SOURCE_DIR}/include
+)
+
+# add tester executable
+enable_testing()
+
+add_executable(
+        tester
+        tests/tester.cpp
+)
+target_link_libraries(
+        tester
+        GTest::gtest_main
+)
+
+include(GoogleTest)
+gtest_discover_tests(tester)
