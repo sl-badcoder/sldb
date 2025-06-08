@@ -38,17 +38,7 @@ target_include_directories(SLDB PRIVATE
         ${gtest_SOURCE_DIR}/include
 )
 
-# add tester executable
-enable_testing()
-
-add_executable(
-        tester
-        tests/tester.cpp
-)
-target_link_libraries(
-        tester
-        GTest::gtest_main
-)
-
 include(GoogleTest)
-gtest_discover_tests(tester)
+
+# include the testing
+include("${PROJECT_SOURCE_DIR}/tests/local.cmake")
