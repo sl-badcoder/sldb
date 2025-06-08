@@ -1,18 +1,15 @@
 # SLDB
 🚧 Simple Database implementation but still under construction.
-🔍
-# BUFFER_REPLACEMENT 💿
+# BUFFER_REPLACEMENT 🔍
 - LRU
 - LFU
 - FIFO
 - TWOQUEUE
 - Clock Replacement
-🌲
-# INDEXING
+# INDEXING 🌲
 - B-Tree
 - B+-Tree
 - Hashmap
-💾
-# STORAGE
+# STORAGE 💾
 - row_storage (OLTP)
 - column_storage (OLAP)
