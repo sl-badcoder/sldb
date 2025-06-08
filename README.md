@@ -1,7 +1,7 @@
 # SLDB
 🚧 Simple Database implementation but still under construction.
 🔍
-# BUFFER_REPLACEMENT
+# BUFFER_REPLACEMENT 💿
 - LRU
 - LFU
 - FIFO
