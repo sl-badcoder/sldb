@@ -12,6 +12,7 @@
 #include <cstdio>
 #include <memory>
 #include <stdexcept>
+
 //--------------------------------------------------------------------------------------
 class File
 {
@@ -20,10 +21,15 @@ public:
     {
         if (write)
         {
+            // if file exists open with r+b else with a+b such that fseek logic works properly
             if ((file = std::fopen(file_name, "r+b")) == NULL)
             {
-                std::perror("File couldn't open");
-                return;
+                file = std::fopen(file_name, "a+b");
+                if (file == NULL)
+                {
+                    std::perror("File couldn't open");
+                    return;
+                }
             }
         }
         else if ((file = std::fopen(file_name, "rb")) == NULL)
@@ -47,7 +53,7 @@ public:
         if (!feof(file))
         {
             size_t result = fread(dest, sizeof(char), size, file);
-            if(result != size)
+            if (result != size)
             {
                 std::perror("elements are not read correctly");
             }
@@ -62,7 +68,7 @@ public:
         {
             return;
         }
-        if(feof(file))
+        if (feof(file))
         {
             std::perror("File does not exist");
         }
