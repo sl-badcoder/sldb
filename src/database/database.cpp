@@ -2,7 +2,7 @@
 // Created by Senad Lemes Galera on 01.04.25.
 //
  // -------------------------------------------------------------------------------------
-#include "src/database/database.h"
+#include "database.h"
 // -------------------------------------------------------------------------------------
 std::vector<Customer> R_Customers;
 std::vector<Product> R_Products;

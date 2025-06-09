@@ -5,9 +5,9 @@
 #include <unistd.h>
 #include <fcntl.h>
 // -------------------------------------------------------------------------------------
-#include "src/database/buffermanager/buffer_manager.h"
-#include "src/storage/slotted_page.h"
-#include "src/storage/basic_frame.h"
+#include "buffer_manager.h"
+#include "storage/slotted_page.h"
+#include "basic_frame.h"
 // -------------------------------------------------------------------------------------
 //TODO: implement different versions of latching
 // -------------------------------------------------------------------------------------

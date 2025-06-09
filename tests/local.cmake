@@ -14,6 +14,8 @@ add_executable(
 
 target_link_libraries(
         tester
+        bufferlib
+        project_includes
         GTest::gtest_main
 )
 

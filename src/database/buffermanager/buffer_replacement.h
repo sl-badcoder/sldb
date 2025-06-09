@@ -5,12 +5,12 @@
 #ifndef BUFFER_REPLACEMENT_H
 #define BUFFER_REPLACEMENT_H
 // -------------------------------------------------------------------------------------
-#include "src/storage/basic_frame.h"
+#include "basic_frame.h"
 // -------------------------------------------------------------------------------------
 #include <queue>
 #include <set>
 #include <list>
-
+#include <unordered_map>
 // -------------------------------------------------------------------------------------
 enum class BUFFER_REPLACEMENT { FIFO, LRU, LFU, CLOCK, TQ };
 

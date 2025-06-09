@@ -1,26 +1,13 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.11)
 project(SLDB)
 
 # Set the C++ standard
 set(CMAKE_CXX_STANDARD 17)
-
-# Define the executable and its source files
-add_executable(SLDB
-        src/sldb.cpp
-        src/database/database.cpp
-        src/database/database.h
-        src/database/datastructures/indexing.cpp
-        src/database/buffermanager/buffer_manager.cpp
-        src/database/datastructures/indexing.h
-        src/database/buffermanager/buffer_manager.h
-        src/database/buffermanager/buffer_replacement.h
-        src/storage/basic_frame.h
-        src/storage/slotted_page.h
-        src/storage/advanced_frame.h
-        src/storage/slotted_page.cpp
-        src/database/buffermanager/buffer_replacement.cpp
-        include/File.h
-)
+add_compile_options(-Wall -Wextra -Wvla)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fsanitize=address")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -w -O3")
 
 # include google tests
 include(FetchContent)
@@ -30,12 +17,25 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(googletest)
+
+add_executable(SLDB src/sldb.cpp)
+target_link_libraries(SLDB bufferlib project_includes)
+
+# sources
+include("${CMAKE_SOURCE_DIR}/src/local.cmake")
+
+
 # Add the include directory to the target
-target_include_directories(SLDB PRIVATE ${PROJECT_SOURCE_DIR}/include)
-target_include_directories(SLDB PRIVATE ${PROJECT_SOURCE_DIR})
-target_include_directories(SLDB PRIVATE src/)
-target_include_directories(SLDB PRIVATE
-        ${gtest_SOURCE_DIR}/include
+include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR})
+include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+
+add_library(project_includes INTERFACE)
+target_include_directories(project_includes INTERFACE
+        ${CMAKE_SOURCE_DIR}/include
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_SOURCE_DIR}
 )
 
 include(GoogleTest)

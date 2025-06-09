@@ -2,6 +2,7 @@
 #include "database/database.h"
 #include "database/datastructures/indexing.h"
 #include "database/buffermanager/buffer_manager.h"
+#include "database/buffermanager/buffer_replacement.h"
 // -------------------------------------------------------------------------------------
 #include <iostream>
 #include <fstream>

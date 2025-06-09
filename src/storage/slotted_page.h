@@ -7,6 +7,7 @@
 // -------------------------------------------------------------------------------------
 #include <cstdint>
 #include <memory>
+#include <chrono>
 // -------------------------------------------------------------------------------------
 static constexpr uint16_t INVALID_SLOT_NUM = UINT16_MAX;
 typedef uint32_t page_id_t;

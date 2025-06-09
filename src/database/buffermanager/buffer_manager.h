@@ -5,11 +5,11 @@
 #ifndef SLDB_DATABASE_BUFFER_MANAGER_H
 #define SLDB_DATABASE_BUFFER_MANAGER_H
 // -------------------------------------------------------------------------------------
-#include "src/database/datastructures/indexing.h"
-#include "src/database/buffermanager/buffer_replacement.h"
-#include "src/storage/basic_frame.h"
-#include "src/storage/slotted_page.h"
-#include "File.h"
+#include "database/datastructures/indexing.h"
+#include "buffer_replacement.h"
+#include "basic_frame.h"
+#include "storage/slotted_page.h"
+#include "file_api.h"
 // -------------------------------------------------------------------------------------
 #include <unordered_map>
 #include <vector>
