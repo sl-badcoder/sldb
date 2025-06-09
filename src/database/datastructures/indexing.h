@@ -6,7 +6,8 @@
 #define CRACKINGTHECODINGINTERVIEW_DATABASES_INDEXING_H_
 // -------------------------------------------------------------------------------------
 #include <cstdint>
-#include "vector"
+#include <vector>
+#include <cstddef>
 // -------------------------------------------------------------------------------------
 typedef uint32_t page_id_t;
 constexpr page_id_t INVALID_PAGE_ID = 0;

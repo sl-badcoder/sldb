@@ -2,6 +2,7 @@
 #include "database/database.h"
 #include "database/datastructures/indexing.h"
 #include "database/buffermanager/buffer_manager.h"
+#include "database/buffermanager/buffer_replacement.h"
 // -------------------------------------------------------------------------------------
 #include <iostream>
 #include <fstream>
@@ -12,9 +13,6 @@
 // -------------------------------------------------------------------------------------
 BufferPoolManager* BufferPoolManager::instance_ = nullptr;
 std::mutex BufferPoolManager::singleton_mutex_;
-// -------------------------------------------------------------------------------------
-
-
 //--------------------------------------------------------------------------------------
 int main()
 {

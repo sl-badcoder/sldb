@@ -41,13 +41,17 @@ public:
     }
 
     //--------------------------------------------------------------------------------------
+    //! Destructor
+    //--------------------------------------------------------------------------------------
     ~File()
     {
         std::fclose(file);
     }
 
     //--------------------------------------------------------------------------------------
-    inline void read_block(size_t offset, size_t size, char* dest)
+    // read block from given File
+    //--------------------------------------------------------------------------------------
+    void read_block(size_t offset, size_t size, char* dest)
     {
         fseek(file, offset, SEEK_SET);
         if (!feof(file))
@@ -59,9 +63,10 @@ public:
             }
         }
     }
-
     //--------------------------------------------------------------------------------------
-    inline void write_block(char* src, size_t offset, size_t size)
+    // write block to given File
+    //--------------------------------------------------------------------------------------
+    void write_block(char* src, size_t offset, size_t size)
     {
         fseek(file, offset, SEEK_SET);
         if (file->_flags == 0)

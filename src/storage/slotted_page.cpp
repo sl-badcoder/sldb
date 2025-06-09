@@ -2,9 +2,11 @@
 // Created by Senad Lemes Galera on 14.04.25.
 //
 // -------------------------------------------------------------------------------------
-#include "src/storage/slotted_page.h"
+#include "slotted_page.h"
 // -------------------------------------------------------------------------------------
 #include <vector>
+#include <cstring>
+#include <algorithm>
 // -------------------------------------------------------------------------------------
 bool SlottedPage::hasEnoughSpace(uint16_t size) const
 {
@@ -69,7 +71,7 @@ uint16_t SlottedPage::insertRecord(const char* data, uint16_t length)
     slot->offset = free_space_ptr;
     slot->length = length;
 
-    memcpy(data_ + free_space_ptr, data, length);
+    std::memcpy(data_ + free_space_ptr, data, length);
 
     is_dirty_ = true;
     return slot_num;

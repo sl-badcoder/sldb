@@ -2,8 +2,8 @@
 // Created by Senad Lemes Galera on 14.04.25.
 //
 // -------------------------------------------------------------------------------------
-#include "src/database/buffermanager/buffer_replacement.h"
-#include "src/storage/basic_frame.h"
+#include "buffer_replacement.h"
+#include "basic_frame.h"
 // -------------------------------------------------------------------------------------
 // FIFO
 // -------------------------------------------------------------------------------------

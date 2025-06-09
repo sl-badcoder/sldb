@@ -5,7 +5,7 @@
 #ifndef FRAME_H
 #define FRAME_H
 // -------------------------------------------------------------------------------------
-#include "src/storage/slotted_page.h"
+#include "../src/storage/slotted_page.h"
 // -------------------------------------------------------------------------------------
 class Frame
 {
