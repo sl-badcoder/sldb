@@ -125,6 +125,13 @@ public:
     SlottedPage* newPage(page_id_t* page_id);
     bool deletePage(page_id_t page_id);
     bool flushAllPages();
+    std::vector<std::unique_ptr<Frame>> const getFrames() {
+        return std::move(frames_);
+    };
+
+    std::unordered_map<page_id_t, Frame*> getPageTable() {
+        return page_table_;
+    }
 
 private:
     // Helper methods
