@@ -51,15 +51,13 @@ private:
                       BUFFER_REPLACEMENT strategy = BUFFER_REPLACEMENT::LRU): file(db_file_name, true)
     {
         pool_size_ = pool_size;
-        frames_.reserve(pool_size);
         db_file_name_ = db_file_name;
         replacer_ = createReplacementStrategy(strategy);
         next_page_id_ = 0;
 
         for (size_t i{}; i < pool_size; i++)
         {
-            frames_.push_back(std::make_unique<Frame>());
-            free_list_.push_back(frames_[i].get());
+            free_list_.push_back(new Frame);
         }
     }
     ;
@@ -125,12 +123,13 @@ public:
     SlottedPage* newPage(page_id_t* page_id);
     bool deletePage(page_id_t page_id);
     bool flushAllPages();
-    std::vector<std::unique_ptr<Frame>> const getFrames() {
-        return std::move(frames_);
-    };
 
     std::unordered_map<page_id_t, Frame*> getPageTable() {
         return page_table_;
+    }
+    std::list<Frame*> getFreeList()
+    {
+        return free_list_;
     }
 
 private:
@@ -142,7 +141,6 @@ private:
 
     // Storage for pages
     size_t pool_size_;
-    std::vector<std::unique_ptr<Frame>> frames_;
     std::unordered_map<page_id_t, Frame*> page_table_;
 
     // Replacement strategy

@@ -92,7 +92,7 @@ public:
     // -------------------------------------------------------------------------------------
 private:
     page_id_t page_id_;
-    char data_[PAGE_SIZE]{};
+    char* data_;
     bool is_dirty_;
     uint32_t pin_count_;
 

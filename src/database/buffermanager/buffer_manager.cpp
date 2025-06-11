@@ -104,7 +104,7 @@ SlottedPage* BufferPoolManager::newPage(page_id_t* page_id)
 {
     std::lock_guard<std::mutex> guard(latch_);
 
-    Frame* frame = nullptr;
+    Frame* frame = new Frame();
     if (!free_list_.empty())
     {
         frame = free_list_.front();
@@ -125,7 +125,8 @@ SlottedPage* BufferPoolManager::newPage(page_id_t* page_id)
     new_page->incrementAccessCount();
     assert(page_id != nullptr);
     frame->setPage(std::move(new_page));
-    page_table_[*page_id] =  std::move(frame);
+    uint32_t* page_id_ = new uint32_t(*page_id);
+    page_table_[*page_id_] =  frame;
     replacer_->frameAllocated(frame);
     return frame->getPage();
 }
@@ -175,7 +176,7 @@ bool BufferPoolManager::evictPage(Frame* frame)
 
     page_id_t page_id = page->getPageId();
 
-    if (page->getPinCount() > 0)return false;
+    //if (page->getPinCount() > 0)return false;
 
     if (page->isDirty())
     {
@@ -185,7 +186,7 @@ bool BufferPoolManager::evictPage(Frame* frame)
 
     page_table_.erase(page_id);
 
-    delete page;
+    //delete page;
     frame->reset();
 
     return true;

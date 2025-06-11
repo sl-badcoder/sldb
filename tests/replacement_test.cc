@@ -20,9 +20,9 @@ TEST(ReplacementTest, Init){
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
-    int number_of_frames = BufferPoolManager::getInstance()->getFrames().size();
+    int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
-    EXPECT_EQ(2048, number_of_frames);
+    EXPECT_EQ(2038, free_frames);
     EXPECT_EQ(10,page_table_size );
     BufferPoolManager::destroyInstance();
 }
@@ -36,9 +36,9 @@ TEST(ReplacementTest, TQPolicy){
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
-    int number_of_frames = BufferPoolManager::getInstance()->getFrames().size();
+    int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
-    EXPECT_EQ(2048, number_of_frames);
+    EXPECT_EQ(2038, free_frames);
     EXPECT_EQ(10,page_table_size );
     BufferPoolManager::destroyInstance();
 }
@@ -52,9 +52,9 @@ TEST(ReplacementTest, LRUPolicy){
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
-    int number_of_frames = BufferPoolManager::getInstance()->getFrames().size();
+    int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
-    EXPECT_EQ(2048, number_of_frames);
+    EXPECT_EQ(2038, free_frames);
     EXPECT_EQ(10,page_table_size );
     BufferPoolManager::destroyInstance();
 }
@@ -68,9 +68,9 @@ TEST(ReplacementTest, LFUPolicy){
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
-    int number_of_frames = BufferPoolManager::getInstance()->getFrames().size();
+    int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
-    EXPECT_EQ(2048, number_of_frames);
+    EXPECT_EQ(2038, free_frames);
     EXPECT_EQ(10,page_table_size );
     BufferPoolManager::destroyInstance();
 }
@@ -82,25 +82,14 @@ TEST(ReplacementTest, FIFOPolicy){
     for (int i = 0; i < 10; i++) {
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
-        std::cout << "i: " << i << std::endl;
     }
-    int number_of_frames = BufferPoolManager::getInstance()->getFrames().size();
+    int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
     std::unordered_map<page_id_t, Frame*> page_table_ = BufferPoolManager::getInstance()->getPageTable();
-    EXPECT_EQ(9, number_of_frames);
+    EXPECT_EQ(0, free_frames);
     EXPECT_EQ(9,page_table_size );
-    // TODO: update page_table_ logic there are invalid values stored
-    /**
-    for(int i = 0; i < page_table_size; i++)
-    {
-        SlottedPage* page = std::move(BufferPoolManager::getInstance()->getPageTable().at(i)->getPage());
-        if(page)
-        {
-            std::cout << page->getPageId() << std::endl;
-        }
-    }**/
     // The first page shouldnt be in the BufferPool anymore
-    ASSERT_EQ(BufferPoolManager::getInstance()->getPageTable().find(1) !=  BufferPoolManager::getInstance()->getPageTable().end(), 1);
+    ASSERT_EQ(BufferPoolManager::getInstance()->getPageTable().find(0) ==  BufferPoolManager::getInstance()->getPageTable().end(), 1);
     BufferPoolManager::destroyInstance();
 }
 //--------------------------------------------------------------------------------------
@@ -112,9 +101,9 @@ TEST(ReplacementTest, ClockPolicy){
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
-    int number_of_frames = BufferPoolManager::getInstance()->getFrames().size();
+    int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
-    EXPECT_EQ(9, number_of_frames);
+    EXPECT_EQ(0, free_frames);
     EXPECT_EQ(9,page_table_size );
     BufferPoolManager::destroyInstance();
 }
