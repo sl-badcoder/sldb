@@ -6,6 +6,9 @@
 #include <fcntl.h>
 // -------------------------------------------------------------------------------------
 #include "buffer_manager.h"
+
+#include <cassert>
+
 #include "storage/slotted_page.h"
 #include "basic_frame.h"
 // -------------------------------------------------------------------------------------
@@ -120,10 +123,9 @@ SlottedPage* BufferPoolManager::newPage(page_id_t* page_id)
     new_page->incrementPinCount();
     new_page->updateAccessTime(getCurrentTimestamp());
     new_page->incrementAccessCount();
-
+    assert(page_id != nullptr);
     frame->setPage(std::move(new_page));
-    page_table_[*page_id] = frame;
-
+    page_table_[*page_id] =  std::move(frame);
     replacer_->frameAllocated(frame);
     return frame->getPage();
 }

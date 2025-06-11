@@ -30,18 +30,16 @@ Frame* FIFOReplacementStrategy::findVictim()
 {
     Frame* victim = nullptr;
 
-    while (!queue_.empty())
+    if (!queue_.empty())
     {
         Frame* frame = queue_.front();
         SlottedPage* page = frame->getPage();
 
-        if (page && page->getPinCount() == 0)
-        {
+
             victim = frame;
             queue_.pop();
             in_queue_.erase(frame);
-            break;
-        }
+
     }
 
     return victim;
