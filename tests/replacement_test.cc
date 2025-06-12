@@ -63,11 +63,21 @@ TEST(ReplacementTest, LRUPolicy){
 TEST(ReplacementTest, LFUPolicy){
     // create three pages
     page_id_t page_id;
-    BufferPoolManager::initInstance(2048, "test.db", BUFFER_REPLACEMENT::LFU);
+    BufferPoolManager::initInstance(10, "test.db", BUFFER_REPLACEMENT::LFU);
     for (int i = 0; i < 10; i++) {
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
+    for(int i = 0; i < 10; i++){
+        page_id = i;
+        if(i != 6)BufferPoolManager::getInstance()->fetchPage(page_id);
+    }
+    page_id = 11;
+    BufferPoolManager::getInstance()->newPage(&page_id);
+    //--------------------------------------------------------------------------------------
+    // Page 6 shouldn't be in the buffer pool anymore
+    //--------------------------------------------------------------------------------------
+    EXPECT_EQ(BufferPoolManager::getInstance()->getPageTable().find(6) == BufferPoolManager::getInstance()->getPageTable().end(), true);
     int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
     EXPECT_EQ(2038, free_frames);

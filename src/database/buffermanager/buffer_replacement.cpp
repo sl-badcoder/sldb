@@ -137,8 +137,9 @@ Frame* LFUReplacementStrategy::findVictim()
         {
             if (!it.frames.empty())
             {
+                Frame* frame = it.frames.front();
                 it.frames.erase(it.frames.begin());
-                return it.frames.front();
+                return frame;
             }
         }
     }
