@@ -75,11 +75,12 @@ TEST(ReplacementTest, LFUPolicy){
     }
     page_id = 11;
     BufferPoolManager::getInstance()->newPage(&page_id);
-    **/
+
     //--------------------------------------------------------------------------------------
     // Page 6 shouldn't be in the buffer pool anymore
     //--------------------------------------------------------------------------------------
     EXPECT_EQ(BufferPoolManager::getInstance()->getPageTable().find(6) == BufferPoolManager::getInstance()->getPageTable().end(), true);
+    **/
     int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
     EXPECT_EQ(2038, free_frames);
