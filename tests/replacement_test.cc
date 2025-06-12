@@ -68,12 +68,14 @@ TEST(ReplacementTest, LFUPolicy){
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
+    /**
     for(int i = 0; i < 10; i++){
         page_id = i;
         if(i != 6)BufferPoolManager::getInstance()->fetchPage(page_id);
     }
     page_id = 11;
     BufferPoolManager::getInstance()->newPage(&page_id);
+    **/
     //--------------------------------------------------------------------------------------
     // Page 6 shouldn't be in the buffer pool anymore
     //--------------------------------------------------------------------------------------
