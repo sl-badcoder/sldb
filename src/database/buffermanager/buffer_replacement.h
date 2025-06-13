@@ -22,10 +22,10 @@ class ReplacementStrategy
 public:
     virtual ~ReplacementStrategy() = default;
 
-    virtual void frameAllocated(Frame* frame) = 0;
-    virtual void frameAccessed(Frame* frame) = 0;
-    virtual void frameFreed(Frame* frame) = 0;
-    virtual Frame* findVictim() = 0;
+    virtual void frameAllocated(uint64_t page_id) = 0;
+    virtual void frameAccessed(uint64_t page_id) = 0;
+    virtual void frameFreed(uint64_t page_id) = 0;
+    virtual uint64_t findVictim() = 0;
 };
 
 // -------------------------------------------------------------------------------------
@@ -37,14 +37,14 @@ public:
     FIFOReplacementStrategy() = default;
     ~FIFOReplacementStrategy() override = default;
 
-    void frameAllocated(Frame* frame) override;
-    void frameAccessed(Frame* frame) override;
-    void frameFreed(Frame* frame) override;
-    Frame* findVictim() override;
+    void frameAllocated(uint64_t frame) override;
+    void frameAccessed(uint64_t frame) override;
+    void frameFreed(uint64_t frame) override;
+    uint64_t findVictim() override;
 
 private:
-    std::queue<Frame*> queue_;
-    std::set<Frame*> in_queue_;
+    std::queue<uint64_t> queue_;
+    std::unordered_map<uint64_t, uint64_t> in_queue_;
 };
 
 // -------------------------------------------------------------------------------------
@@ -56,10 +56,10 @@ public:
     LRUReplacementStrategy() = default;
     ~LRUReplacementStrategy() override = default;
 
-    void frameAllocated(Frame* frame) override;
-    void frameAccessed(Frame* frame) override;
-    void frameFreed(Frame* frame) override;
-    Frame* findVictim() override;
+    void frameAllocated(uint64_t frame) override;
+    void frameAccessed(uint64_t frame) override;
+    void frameFreed(uint64_t frame) override;
+    uint64_t findVictim() override;
 
 private:
     std::list<Frame*> lru_list_;
@@ -75,10 +75,10 @@ public:
     LFUReplacementStrategy() = default;
     ~LFUReplacementStrategy() override = default;
 
-    void frameAllocated(Frame* frame) override;
-    void frameAccessed(Frame* frame) override;
-    void frameFreed(Frame* frame) override;
-    Frame* findVictim() override;
+    void frameAllocated(uint64_t frame) override;
+    void frameAccessed(uint64_t frame) override;
+    void frameFreed(uint64_t frame) override;
+    uint64_t findVictim() override;
 
 private:
     struct FrequencyNode
@@ -108,10 +108,10 @@ public:
     };
     ~ClockReplacementStrategy() override = default;
 
-    void frameAllocated(Frame* frame) override;
-    void frameAccessed(Frame* frame) override;
-    void frameFreed(Frame* frame) override;
-    Frame* findVictim() override;
+    void frameAllocated(uint64_t frame) override;
+    void frameAccessed(uint64_t frame) override;
+    void frameFreed(uint64_t frame) override;
+    uint64_t findVictim() override;
 
 private:
     std::vector<Frame*> clock_buffer_;
@@ -127,10 +127,10 @@ public:
     TwoQueueReplacementStrategy() = default;
     ~TwoQueueReplacementStrategy() override = default;
 
-    void frameAllocated(Frame* frame) override;
-    void frameAccessed(Frame* frame) override;
-    void frameFreed(Frame* frame) override;
-    Frame* findVictim() override;
+    void frameAllocated(uint64_t frame) override;
+    void frameAccessed(uint64_t frame) override;
+    void frameFreed(uint64_t frame) override;
+    uint64_t findVictim() override;
 
 private:
     std::list<Frame*> a1in_queue_;

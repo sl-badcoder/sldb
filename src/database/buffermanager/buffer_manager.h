@@ -134,7 +134,7 @@ public:
 
 private:
     // Helper methods
-    Frame* findVictimFrame() { return replacer_->findVictim(); };
+    uint64_t findVictimFrame() { return replacer_->findVictim(); };
     bool evictPage(Frame* frame);
     void updatePageMetadata(Frame* frame, SlottedPage* page);
     static int64_t getCurrentTimestamp();

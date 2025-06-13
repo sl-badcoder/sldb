@@ -27,7 +27,7 @@ SlottedPage* BufferPoolManager::fetchPage(page_id_t page_id)
         page->updateAccessTime(getCurrentTimestamp());
         page->incrementAccessCount();
 
-        replacer_->frameAccessed(frame);
+        replacer_->frameAccessed(page_id);
 
         return page;
     }
@@ -40,7 +40,8 @@ SlottedPage* BufferPoolManager::fetchPage(page_id_t page_id)
     }
     else
     {
-        frame = findVictimFrame();
+        uint64_t page_id = findVictimFrame();
+        frame = page_table_[page_id];
         if (!frame)return nullptr;
         if (!evictPage(frame))return nullptr;
     }
@@ -56,7 +57,7 @@ SlottedPage* BufferPoolManager::fetchPage(page_id_t page_id)
     page->updateAccessTime(getCurrentTimestamp());
 
     page_table_[page_id] = frame;
-    replacer_->frameAllocated(frame);
+    replacer_->frameAllocated(page_id);
 
     return frame->getPage();
 }
@@ -112,7 +113,8 @@ SlottedPage* BufferPoolManager::newPage(page_id_t* page_id)
     }
     else
     {
-        frame = findVictimFrame();
+        uint64_t page_id = findVictimFrame();
+        frame = page_table_[page_id];
         if (!frame)return nullptr;
         if (!evictPage(frame))return nullptr;
     }
@@ -127,7 +129,7 @@ SlottedPage* BufferPoolManager::newPage(page_id_t* page_id)
     frame->setPage(std::move(new_page));
     uint32_t* page_id_ = new uint32_t(*page_id);
     page_table_[*page_id_] =  frame;
-    replacer_->frameAllocated(frame);
+    replacer_->frameAllocated(*page_id);
     return frame->getPage();
 }
 
@@ -142,7 +144,7 @@ bool BufferPoolManager::deletePage(page_id_t page_id)
     if (page->getPinCount() > 0)return false;
 
     page_table_.erase(page_id);
-    replacer_->frameFreed(frame);
+    replacer_->frameFreed(page_id);
 
     delete page;
 

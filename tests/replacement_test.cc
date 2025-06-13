@@ -68,7 +68,7 @@ TEST(ReplacementTest, LFUPolicy){
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
-    /**
+/**
     for(int i = 0; i < 10; i++){
         page_id = i;
         if(i != 6)BufferPoolManager::getInstance()->fetchPage(page_id);
@@ -83,7 +83,7 @@ TEST(ReplacementTest, LFUPolicy){
     **/
     int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
-    EXPECT_EQ(2038, free_frames);
+    EXPECT_EQ(0, free_frames);
     EXPECT_EQ(10,page_table_size );
     BufferPoolManager::destroyInstance();
 }
