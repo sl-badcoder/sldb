@@ -117,6 +117,8 @@ uint64_t LFUReplacementStrategy::findVictim()
 // -------------------------------------------------------------------------------------
 void ClockReplacementStrategy::frameAllocated(uint64_t frame)
 {
+    clock_buffer_.push_back(frame);
+    clock_freq_[frame] = false;
 }
 
 void ClockReplacementStrategy::frameFreed(uint64_t frame)
@@ -125,11 +127,25 @@ void ClockReplacementStrategy::frameFreed(uint64_t frame)
 
 void ClockReplacementStrategy::frameAccessed(uint64_t frame)
 {
+    if(clock_freq_.find(frame) != clock_freq_.end())clock_freq_[frame] = true;
 }
 
 uint64_t ClockReplacementStrategy::findVictim()
 {
-    return 0;
+    uint64_t victim = 0;
+    while (true)
+    {
+        if(!clock_freq_[clock_buffer_[clock_hand_]])
+        {
+            victim = clock_buffer_[clock_hand_];
+            clock_buffer_.erase(clock_buffer_.begin() + clock_hand_);
+            clock_freq_.erase(victim);
+            break;
+        }
+        clock_freq_[clock_buffer_[clock_hand_]] = false;
+        clock_hand_++ % clock_buffer_.size();
+    }
+    return victim;
 }
 // -------------------------------------------------------------------------------------
 // TWOQUEUE

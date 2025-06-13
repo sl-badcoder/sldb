@@ -28,6 +28,7 @@ TEST(ReplacementTest, Init)
     EXPECT_EQ(10, page_table_size);
     BufferPoolManager::destroyInstance();
 }
+
 //--------------------------------------------------------------------------------------
 TEST(ReplacementTest, FIFOPolicy)
 {
@@ -120,6 +121,39 @@ TEST(ReplacementTest, LFUPolicy)
 }
 
 //--------------------------------------------------------------------------------------
+TEST(ReplacementTest, ClockPolicy)
+{
+    // create three pages
+    page_id_t page_id;
+    BufferPoolManager::initInstance(10, "test.db", BUFFER_REPLACEMENT::LFU);
+    for (int i = 0; i < 10; i++)
+    {
+        page_id = i;
+        BufferPoolManager::getInstance()->newPage(&page_id);
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        page_id = i;
+        if(i != 6)BufferPoolManager::getInstance()->fetchPage(page_id);
+    }
+    page_id = 11;
+    BufferPoolManager::getInstance()->newPage(&page_id);
+
+    //--------------------------------------------------------------------------------------
+    // Page 6 shouldn't be in the buffer pool anymore
+    //--------------------------------------------------------------------------------------
+    for (const auto& pair : BufferPoolManager::getInstance()->getPageTable())
+    {
+        EXPECT_NE(pair.first, 6);
+    }
+    int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
+    int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
+    EXPECT_EQ(0, free_frames);
+    EXPECT_EQ(10, page_table_size);
+    BufferPoolManager::destroyInstance();
+}
+
+//--------------------------------------------------------------------------------------
 TEST(ReplacementTest, TQPolicy)
 {
     // create three pages
@@ -134,23 +168,5 @@ TEST(ReplacementTest, TQPolicy)
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
     EXPECT_EQ(2038, free_frames);
     EXPECT_EQ(10, page_table_size);
-    BufferPoolManager::destroyInstance();
-}
-
-//--------------------------------------------------------------------------------------
-TEST(ReplacementTest, ClockPolicy)
-{
-    // create three pages
-    page_id_t page_id;
-    BufferPoolManager::initInstance(9, "test.db", BUFFER_REPLACEMENT::CLOCK);
-    for (int i = 0; i < 10; i++)
-    {
-        page_id = i;
-        BufferPoolManager::getInstance()->newPage(&page_id);
-    }
-    int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
-    int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
-    EXPECT_EQ(0, free_frames);
-    EXPECT_EQ(9, page_table_size);
     BufferPoolManager::destroyInstance();
 }

@@ -106,7 +106,8 @@ public:
     uint64_t findVictim() override;
 
 private:
-    std::vector<Frame*> clock_buffer_;
+    std::vector<uint64_t> clock_buffer_;
+    std::unordered_map<uint64_t, bool> clock_freq_;
     size_t clock_hand_;
 };
 
