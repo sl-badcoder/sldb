@@ -68,7 +68,7 @@ TEST(ReplacementTest, LFUPolicy){
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
-/**
+
     for(int i = 0; i < 10; i++){
         page_id = i;
         if(i != 6)BufferPoolManager::getInstance()->fetchPage(page_id);
@@ -80,7 +80,6 @@ TEST(ReplacementTest, LFUPolicy){
     // Page 6 shouldn't be in the buffer pool anymore
     //--------------------------------------------------------------------------------------
     EXPECT_EQ(BufferPoolManager::getInstance()->getPageTable().find(6) == BufferPoolManager::getInstance()->getPageTable().end(), true);
-    **/
     int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
     EXPECT_EQ(0, free_frames);

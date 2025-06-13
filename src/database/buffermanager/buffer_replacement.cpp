@@ -60,7 +60,8 @@ uint64_t LRUReplacementStrategy::findVictim()
 // -------------------------------------------------------------------------------------
 void LFUReplacementStrategy::frameAllocated(uint64_t frame)
 {
-
+    page_freq_[frame] = 0;
+    freq_list[0].push_back(frame);
 }
 
 void LFUReplacementStrategy::frameFreed(uint64_t frame)
@@ -69,12 +70,38 @@ void LFUReplacementStrategy::frameFreed(uint64_t frame)
 
 void LFUReplacementStrategy::frameAccessed(uint64_t frame)
 {
-    // find frequencynode -> delete frame -> input frame in next frequency node
+    if(page_freq_.find(frame) != page_freq_.end())
+    {
+        uint64_t freq = page_freq_[frame];
+        page_freq_[frame] += 1;
+        freq_list[freq].remove(frame);
+        freq += 1;
+        freq_list[freq].push_back(frame);
+        while(freq_list[minFreq].empty())
+        {
+            if(freq_list.size() - 1 == minFreq)break;
+            minFreq++;
+        }
+    }else
+    {
+        frameAllocated(frame);
+    }
 }
 
 uint64_t LFUReplacementStrategy::findVictim()
 {
-    return 0;
+    uint64_t victim = freq_list[minFreq].front();
+    freq_list[minFreq].pop_front();
+    while(freq_list[minFreq].empty())
+    {
+        if(freq_list.size() - 1 == minFreq)
+        {
+            if(freq_list[minFreq + 1].empty())minFreq = 0;
+            break;
+        }
+        minFreq++;
+    }
+    return victim;
 }
 
 // -------------------------------------------------------------------------------------

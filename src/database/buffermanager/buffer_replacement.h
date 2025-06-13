@@ -81,18 +81,10 @@ public:
     uint64_t findVictim() override;
 
 private:
-    struct FrequencyNode
-    {
-        uint32_t frequency;
-        std::list<Frame*> frames;
 
-        explicit FrequencyNode(uint32_t freq) : frequency(freq)
-        {
-        }
-    };
-
-    std::list<FrequencyNode> freq_list_; // Sorted by frequency
-    std::unordered_map<Frame*, std::pair<std::list<FrequencyNode>::iterator, std::list<Frame*>::iterator>> frame_map_;
+    std::unordered_map<uint64_t, uint64_t> page_freq_;
+    std::unordered_map<uint64_t, std::list<uint64_t>> freq_list;
+    uint64_t minFreq = 0;
 };
 
 // -------------------------------------------------------------------------------------
