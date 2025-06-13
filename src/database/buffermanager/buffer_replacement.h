@@ -62,8 +62,8 @@ public:
     uint64_t findVictim() override;
 
 private:
-    std::list<Frame*> lru_list_;
-    std::unordered_map<Frame*, std::list<Frame*>::iterator> lru_map_; // For O(1) access
+    std::list<uint64_t> lru_list_;
+    std::unordered_map<uint64_t, std::list<uint64_t>::iterator> lru_map_;
 };
 
 // -------------------------------------------------------------------------------------

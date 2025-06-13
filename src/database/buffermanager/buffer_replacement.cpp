@@ -40,10 +40,18 @@ uint64_t FIFOReplacementStrategy::findVictim()
 // -------------------------------------------------------------------------------------
 void LRUReplacementStrategy::frameAllocated(uint64_t frame)
 {
+    auto it = lru_list_.insert(lru_list_.end(), frame);
+    lru_map_[frame] = it;
 }
 
 void LRUReplacementStrategy::frameAccessed(uint64_t frame)
 {
+    if(lru_map_.find(frame) != lru_map_.end())
+    {
+        lru_list_.erase(lru_map_[frame]);
+        auto it = lru_list_.insert(lru_list_.end(), frame);
+        lru_map_[frame] = it;
+    }
 }
 
 void LRUReplacementStrategy::frameFreed(uint64_t frame)
@@ -52,7 +60,10 @@ void LRUReplacementStrategy::frameFreed(uint64_t frame)
 
 uint64_t LRUReplacementStrategy::findVictim()
 {
-    return 0;
+    uint64_t victim = 0;
+    victim = lru_list_.front();
+    lru_list_.pop_front();
+    return victim;
 }
 
 // -------------------------------------------------------------------------------------
@@ -82,9 +93,6 @@ void LFUReplacementStrategy::frameAccessed(uint64_t frame)
             if(freq_list.size() - 1 == minFreq)break;
             minFreq++;
         }
-    }else
-    {
-        frameAllocated(frame);
     }
 }
 
