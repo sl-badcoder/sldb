@@ -123,6 +123,7 @@ void ClockReplacementStrategy::frameAllocated(uint64_t frame)
 
 void ClockReplacementStrategy::frameFreed(uint64_t frame)
 {
+    if(clock_freq_.find(frame) != clock_freq_.end())clock_freq_[frame] = false;
 }
 
 void ClockReplacementStrategy::frameAccessed(uint64_t frame)
@@ -152,6 +153,8 @@ uint64_t ClockReplacementStrategy::findVictim()
 // -------------------------------------------------------------------------------------
 void TwoQueueReplacementStrategy::frameAllocated(uint64_t frame)
 {
+    auto it = fifo_in_.insert(fifo_in_.end(), frame);
+    fifo_map_[frame] = it;
 }
 
 void TwoQueueReplacementStrategy::frameFreed(uint64_t frame)
@@ -161,10 +164,35 @@ void TwoQueueReplacementStrategy::frameFreed(uint64_t frame)
 
 void TwoQueueReplacementStrategy::frameAccessed(uint64_t frame)
 {
+    if(fifo_map_.find(frame) != fifo_map_.end())
+    {
+        fifo_in_.erase(fifo_map_[frame]);
+        fifo_map_.erase(frame);
+
+        auto it = lru_in_.insert(lru_in_.end(), frame);
+        lru_map_[frame] = it;
+    }else if(lru_map_.find(frame) != lru_map_.end())
+    {
+        lru_in_.erase(lru_map_[frame]);
+        auto it = lru_in_.insert(lru_in_.end(),frame);
+        lru_map_[frame] = it;
+    }
 }
 
 uint64_t TwoQueueReplacementStrategy::findVictim()
 {
-    return 0;
+    uint64_t victim = 0;
+    if(!fifo_in_.empty())
+    {
+        victim = fifo_in_.front();
+        fifo_in_.pop_front();
+        fifo_map_.erase(victim);
+    }else
+    {
+        victim = lru_in_.front();
+        lru_in_.pop_front();
+        lru_map_.erase(victim);
+    }
+    return victim;
 }
 // -------------------------------------------------------------------------------------

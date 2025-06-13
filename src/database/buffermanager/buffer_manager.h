@@ -131,7 +131,10 @@ public:
     {
         return free_list_;
     }
-
+    std::unique_ptr<ReplacementStrategy> getReplacer()
+    {
+        return std::move(replacer_);
+    }
 private:
     // Helper methods
     uint64_t findVictimFrame() { return replacer_->findVictim(); };

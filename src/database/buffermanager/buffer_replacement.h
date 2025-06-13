@@ -126,17 +126,12 @@ public:
     uint64_t findVictim() override;
 
 private:
-    std::list<Frame*> a1in_queue_;
-    std::unordered_map<Frame*, std::list<Frame*>::iterator> a1in_map_;
+    std::list<uint64_t> fifo_in_;
+    std::unordered_map<uint64_t, std::list<uint64_t>::iterator> fifo_map_;
 
-    std::list<Frame*> am_queue_;
-    std::unordered_map<Frame*, std::list<Frame*>::iterator> am_map_;
+    std::list<uint64_t> lru_in_;
+    std::unordered_map<uint64_t, std::list<uint64_t>::iterator> lru_map_;
 
-    std::set<page_id_t> a1out_set_;
-
-    size_t a1in_size_ratio_;
-    size_t a1out_size_ratio_;
-    size_t total_frames_;
 };
 
 // -------------------------------------------------------------------------------------
