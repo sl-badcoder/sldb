@@ -138,7 +138,7 @@ public:
 private:
     // Helper methods
     uint64_t findVictimFrame() { return replacer_->findVictim(); };
-    bool evictPage(Frame* frame);
+    bool evictPage(page_id_t page_id);
     void updatePageMetadata(Frame* frame, SlottedPage* page);
     static int64_t getCurrentTimestamp();
 
@@ -206,7 +206,7 @@ private:
     bool deleteNode(page_id_t page_id);
 
     // Modified to map node pages to slot IDs for node components
-    std::unordered_map<page_id_t, std::vector<SlotId>> node_component_map_;
+    //std::unordered_map<page_id_t, std::vector<SlotId>> node_component_map_;
 };
 // -------------------------------------------------------------------------------------
 #endif //SLDB_DATABASE_BUFFER_MANAGER_H

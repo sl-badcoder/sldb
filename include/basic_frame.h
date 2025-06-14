@@ -25,9 +25,14 @@ public:
     {
         return std::move(page_);
     }
+    page_id_t getPageId()
+    {
+        return page_no;
+    }
 
 private:
     std::unique_ptr<SlottedPage> page_;
+    page_id_t page_no;
     bool referenced_;
 };
 // -------------------------------------------------------------------------------------
