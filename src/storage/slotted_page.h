@@ -38,13 +38,13 @@ class SlottedPage
 {
 public:
     // -------------------------------------------------------------------------------------
-    explicit SlottedPage(page_id_t page_id);
+    explicit SlottedPage(uint64_t page_size);
     ~SlottedPage() = default;
 };
 // -------------------------------------------------------------------------------------
 // Implementation details below here
 // -------------------------------------------------------------------------------------
-inline SlottedPage::SlottedPage(page_id_t page_id)
+inline SlottedPage::SlottedPage(uint64_t page_size)
 {
 }
 // -------------------------------------------------------------------------------------

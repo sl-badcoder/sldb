@@ -11,12 +11,12 @@
 BufferPoolManager* BufferPoolManager::instance_ = nullptr;
 std::mutex BufferPoolManager::singleton_mutex_;
 //--------------------------------------------------------------------------------------
-
+constexpr int page_size = 4096;
 TEST(ReplacementTest, Init)
 {
     // create three pages
     page_id_t page_id;
-    BufferPoolManager::initInstance(2048, "test.db", BUFFER_REPLACEMENT::TQ);
+    BufferPoolManager::initInstance(2048, "test.db", page_size, BUFFER_REPLACEMENT::TQ);
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
@@ -34,7 +34,7 @@ TEST(ReplacementTest, FIFOPolicy)
 {
     // create three pages
     page_id_t page_id;
-    BufferPoolManager::initInstance(9, "test.db", BUFFER_REPLACEMENT::FIFO);
+    BufferPoolManager::initInstance(9, "test.db", page_size, BUFFER_REPLACEMENT::FIFO);
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
@@ -57,7 +57,7 @@ TEST(ReplacementTest, LRUPolicy)
 {
     // create three pages
     page_id_t page_id;
-    BufferPoolManager::initInstance(10, "test.db", BUFFER_REPLACEMENT::LRU);
+    BufferPoolManager::initInstance(10, "test.db",page_size,  BUFFER_REPLACEMENT::LRU);
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
@@ -91,7 +91,7 @@ TEST(ReplacementTest, LFUPolicy)
 {
     // create three pages
     page_id_t page_id;
-    BufferPoolManager::initInstance(10, "test.db", BUFFER_REPLACEMENT::LFU);
+    BufferPoolManager::initInstance(10, "test.db", page_size, BUFFER_REPLACEMENT::LFU);
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
@@ -125,7 +125,7 @@ TEST(ReplacementTest, ClockPolicy)
 {
     // create three pages
     page_id_t page_id;
-    BufferPoolManager::initInstance(10, "test.db", BUFFER_REPLACEMENT::CLOCK);
+    BufferPoolManager::initInstance(10, "test.db", page_size, BUFFER_REPLACEMENT::CLOCK);
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
@@ -158,7 +158,7 @@ TEST(ReplacementTest, TQPolicy)
 {
     // create three pages
     page_id_t page_id;
-    BufferPoolManager::initInstance(10, "test.db", BUFFER_REPLACEMENT::TQ);
+    BufferPoolManager::initInstance(10, "test.db", page_size, BUFFER_REPLACEMENT::TQ);
     for (int i = 0; i < 10; i++)
     {
         page_id = i;

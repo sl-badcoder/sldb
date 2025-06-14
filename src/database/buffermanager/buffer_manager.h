@@ -47,13 +47,14 @@ class BufferPoolManager
 {
 private:
     //! Constructor
-    BufferPoolManager(size_t pool_size, char* db_file_name,
+    BufferPoolManager(size_t pool_size, char* db_file_name, uint64_t page_size,
                       BUFFER_REPLACEMENT strategy = BUFFER_REPLACEMENT::LRU): file(db_file_name, true)
     {
         pool_size_ = pool_size;
         db_file_name_ = db_file_name;
         replacer_ = createReplacementStrategy(strategy);
         next_page_id_ = 0;
+        page_size_ = page_size;
 
         for (size_t i{}; i < pool_size; i++)
         {
@@ -90,20 +91,20 @@ public:
             std::lock_guard<std::mutex> lock(singleton_mutex_);
             if (instance_ == nullptr) {
                 // Default parameters - you can customize these or make them configurable
-                instance_ = new BufferPoolManager(DEFAULT_POOL_SIZE, "sldb.db");
+                instance_ = new BufferPoolManager(DEFAULT_POOL_SIZE, "sldb.db", 4096);
             }
         }
         return instance_;
     }
 
     // Initialize singleton with specific parameters
-    static void initInstance(size_t pool_size, char* db_file_name,
+    static void initInstance(size_t pool_size, char* db_file_name, uint64_t page_size,
                            BUFFER_REPLACEMENT strategy = BUFFER_REPLACEMENT::LRU) {
         std::lock_guard<std::mutex> lock(singleton_mutex_);
         if (instance_ != nullptr) {
             delete instance_;
         }
-        instance_ = new BufferPoolManager(pool_size, db_file_name, strategy);
+        instance_ = new BufferPoolManager(pool_size, db_file_name, page_size, strategy);
     }
 
     // Cleanup method
@@ -162,7 +163,7 @@ private:
     // Thread safety
     std::mutex latch_;
 
-
+    uint64_t page_size_;
 };
 // -------------------------------------------------------------------------------------
 // B-tree node disk serialization helpers with slotted page awareness

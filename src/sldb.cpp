@@ -16,7 +16,7 @@ std::mutex BufferPoolManager::singleton_mutex_;
 //--------------------------------------------------------------------------------------
 int main()
 {
-    BufferPoolManager::initInstance(2048, "my_database.db", BUFFER_REPLACEMENT::LRU);
+    BufferPoolManager::initInstance(2048, "my_database.db", 4096, BUFFER_REPLACEMENT::LRU);
     BufferPoolManager::destroyInstance();
     return 0;
 }
