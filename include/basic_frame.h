@@ -20,6 +20,7 @@ public:
 
     [[nodiscard]] bool getReferenced() const { return referenced_; };
     void setReferenced(bool referenced);
+    void setDirty(bool is_dirty);
 
     std::unique_ptr<SlottedPage> releasePage()
     {
@@ -34,6 +35,7 @@ private:
     std::unique_ptr<SlottedPage> page_;
     page_id_t page_no;
     bool referenced_;
+    bool is_dirty_;
 };
 // -------------------------------------------------------------------------------------
 // Implementations below here
@@ -64,6 +66,12 @@ inline void Frame::setReferenced(bool referenced)
 {
     referenced_ = referenced;
 }
+
+inline void Frame::setDirty(bool is_dirty)
+{
+    is_dirty_ = is_dirty;
+}
+
 // -------------------------------------------------------------------------------------
 #endif //FRAME_H
 // -------------------------------------------------------------------------------------

@@ -14,7 +14,7 @@
 // -------------------------------------------------------------------------------------
 //TODO: implement different versions of latching
 // -------------------------------------------------------------------------------------
-SlottedPage* BufferPoolManager::fetchPage(page_id_t page_id)
+SlottedPage* BufferPoolManager::pinPage(page_id_t page_id)
 {
     std::lock_guard<std::mutex> guard(latch_);
 
@@ -22,11 +22,7 @@ SlottedPage* BufferPoolManager::fetchPage(page_id_t page_id)
     {
         Frame* frame = page_table_[page_id];
         SlottedPage* page = frame->getPage();
-        /**
-        page->incrementPinCount();
-        page->updateAccessTime(getCurrentTimestamp());
-        page->incrementAccessCount();
-        **/
+
         replacer_->frameAccessed(page_id);
 
         return page;
@@ -48,17 +44,8 @@ SlottedPage* BufferPoolManager::fetchPage(page_id_t page_id)
 
     auto page = std::make_unique<SlottedPage>(page_id);
 
-    /**
-    off_t offset = page_id * SlottedPage::PAGE_SIZE;
-    file.read_block(offset, SlottedPage::PAGE_SIZE, page->getData());
-
-
-    page->incrementPinCount();
-    page->updateAccessTime(getCurrentTimestamp());
-    **/
     frame->setPage(std::move(page));
     page_table_[page_id] = frame;
-    replacer_->frameAllocated(page_id);
 
     return frame->getPage();
 }
@@ -72,17 +59,13 @@ bool BufferPoolManager::unpinPage(page_id_t page_id, bool is_dirty)
         return false;
     }
 
+    // update Frame values
     Frame* frame = page_table_[page_id];
-    SlottedPage* page = frame->getPage();
-    /**
-    if (page->getPinCount() <= 0)return false;
+    frame->setReferenced(false);
+    frame->setDirty(is_dirty);
 
-    page->decrementPinCount();
+    replacer_->frameAllocated(page_id);
 
-    if (is_dirty)page->setDirty(true);
-
-    if (page->getPinCount() == 0)frame->setReferenced(false);
-    **/
     return true;
 }
 
@@ -93,12 +76,7 @@ bool BufferPoolManager::flushPage(page_id_t page_id)
     if (page_table_.find(page_id) == page_table_.end())return false;
 
     Frame* frame = page_table_[page_id];
-/**    SlottedPage* page = frame->getPage();
 
-    off_t offset = page_id * SlottedPage::PAGE_SIZE;
-    file.write_block(page->getData(), offset, SlottedPage::PAGE_SIZE);
-    page->setDirty(false);
-**/
     return true;
 }
 
@@ -123,14 +101,11 @@ SlottedPage* BufferPoolManager::newPage(page_id_t* page_id)
     *page_id = next_page_id_++;
 
     auto new_page = std::make_unique<SlottedPage>(*page_id);
-    /**new_page->incrementPinCount();
-    new_page->updateAccessTime(getCurrentTimestamp());
-    new_page->incrementAccessCount();**/
     assert(page_id != nullptr);
     frame->setPage(std::move(new_page));
     uint32_t* page_id_ = new uint32_t(*page_id);
     page_table_[*page_id_] =  frame;
-    replacer_->frameAllocated(*page_id);
+    //replacer_->frameAllocated(*page_id);
     return frame->getPage();
 }
 
@@ -141,8 +116,6 @@ bool BufferPoolManager::deletePage(page_id_t page_id)
 
     Frame* frame = page_table_[page_id];
     SlottedPage* page = frame->getPage();
-
-    //if (page->getPinCount() > 0)return false;
 
     page_table_.erase(page_id);
     replacer_->frameFreed(page_id);

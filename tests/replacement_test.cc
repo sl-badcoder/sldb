@@ -35,11 +35,20 @@ TEST(ReplacementTest, FIFOPolicy)
     // create three pages
     page_id_t page_id;
     BufferPoolManager::initInstance(9, "test.db", page_size, BUFFER_REPLACEMENT::FIFO);
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 9; i++)
     {
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
+    for (int i = 0; i < 9; i++)
+    {
+        page_id = i;
+        BufferPoolManager::getInstance()->unpinPage(page_id, false);
+    }
+    page_id = 10;
+    BufferPoolManager::getInstance()->newPage(&page_id);
+
+
     int free_frames = BufferPoolManager::getInstance()->getFreeList().size();
     int page_table_size = BufferPoolManager::getInstance()->getPageTable().size();
     std::unordered_map<page_id_t, Frame*> page_table_ = BufferPoolManager::getInstance()->getPageTable();
@@ -57,17 +66,21 @@ TEST(ReplacementTest, LRUPolicy)
 {
     // create three pages
     page_id_t page_id;
-    BufferPoolManager::initInstance(10, "test.db",page_size,  BUFFER_REPLACEMENT::LRU);
+    BufferPoolManager::initInstance(10, "test.db", page_size, BUFFER_REPLACEMENT::LRU);
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
-
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
-        if (i != 6)BufferPoolManager::getInstance()->fetchPage(page_id);
+        BufferPoolManager::getInstance()->unpinPage(page_id, false);
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        page_id = i;
+        if (i != 6)BufferPoolManager::getInstance()->pinPage(page_id);
     }
     page_id = 11;
     BufferPoolManager::getInstance()->newPage(&page_id);
@@ -97,11 +110,15 @@ TEST(ReplacementTest, LFUPolicy)
         page_id = i;
         BufferPoolManager::getInstance()->newPage(&page_id);
     }
-
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
-        if (i != 6)BufferPoolManager::getInstance()->fetchPage(page_id);
+        BufferPoolManager::getInstance()->unpinPage(page_id, false);
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        page_id = i;
+        if (i != 6)BufferPoolManager::getInstance()->pinPage(page_id);
     }
     page_id = 11;
     BufferPoolManager::getInstance()->newPage(&page_id);
@@ -134,7 +151,12 @@ TEST(ReplacementTest, ClockPolicy)
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
-        if(i != 6)BufferPoolManager::getInstance()->fetchPage(page_id);
+        BufferPoolManager::getInstance()->unpinPage(page_id, false);
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        page_id = i;
+        if (i != 6)BufferPoolManager::getInstance()->pinPage(page_id);
     }
     page_id = 11;
     BufferPoolManager::getInstance()->newPage(&page_id);
@@ -167,7 +189,12 @@ TEST(ReplacementTest, TQPolicy)
     for (int i = 0; i < 10; i++)
     {
         page_id = i;
-        if(i != 6)BufferPoolManager::getInstance()->fetchPage(page_id);
+        BufferPoolManager::getInstance()->unpinPage(page_id, false);
+    }
+    for (int i = 0; i < 10; i++)
+    {
+        page_id = i;
+        if (i != 6)BufferPoolManager::getInstance()->pinPage(page_id);
     }
     page_id = 11;
     BufferPoolManager::getInstance()->newPage(&page_id);

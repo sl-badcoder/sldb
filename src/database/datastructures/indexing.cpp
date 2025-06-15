@@ -136,7 +136,7 @@ BTreeNode* BTreeNode::getChild(int index) const
 
     BufferPoolManager* buffer_pool_manager = BufferPoolManager::getInstance();
 
-    SlottedPage* child_page = buffer_pool_manager->fetchPage(child_page_id);
+    SlottedPage* child_page = buffer_pool_manager->pinPage(child_page_id);
     if (!child_page)return nullptr;
 
     BTreeNode* child_node = BTreeNodeSerializer::deserializeNode(child_page, degree);

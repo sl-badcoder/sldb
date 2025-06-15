@@ -118,7 +118,7 @@ public:
     // -------------------------------------------------------------------------------------
 
     // Core API
-    SlottedPage* fetchPage(page_id_t page_id);
+    SlottedPage* pinPage(page_id_t page_id);
     bool unpinPage(page_id_t page_id, bool is_dirty);
     bool flushPage(page_id_t page_id);
     SlottedPage* newPage(page_id_t* page_id);
