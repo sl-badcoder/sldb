@@ -12,6 +12,12 @@
 static constexpr uint16_t INVALID_SLOT_NUM = UINT16_MAX;
 typedef uint32_t page_id_t;
 // -------------------------------------------------------------------------------------
+struct TID
+{
+    uint16_t page_id;
+    uint16_t slot_id;
+};
+
 struct PageHeader
 {
     uint16_t num_slots;
@@ -40,12 +46,28 @@ public:
     // -------------------------------------------------------------------------------------
     explicit SlottedPage(uint64_t page_size);
     ~SlottedPage() = default;
+    void allocate(size_t data_size);
+    void erase(TID tid);
+    void resize(TID tid, size_t data_size);
+
+    char* getData()
+    {
+        return data;
+    }
+
+private:
+    PageHeader header;
+    char* data;
 };
 // -------------------------------------------------------------------------------------
 // Implementation details below here
 // -------------------------------------------------------------------------------------
 inline SlottedPage::SlottedPage(uint64_t page_size)
 {
+    header.data_start = page_size;
+    header.first_free_slot = 0;
+    header.free_space = page_size - sizeof(PageHeader);
+    header.num_slots = 0;
 }
 // -------------------------------------------------------------------------------------
 #endif //SLOTTED_PAGE_H
