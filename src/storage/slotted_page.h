@@ -54,6 +54,10 @@ public:
     {
         return data;
     }
+    PageHeader getHeader()
+    {
+        return header;
+    }
 
 private:
     PageHeader header;

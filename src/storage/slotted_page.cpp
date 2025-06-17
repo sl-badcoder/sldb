@@ -14,7 +14,7 @@ void SlottedPage::allocate(size_t data_size)
     header.data_start -= data_size;
     header.first_free_slot += 1;
     header.num_slots += 1;
-    header.free_space -= data_size - sizeof(SlotDirectoryEntry);
+    header.free_space -= data_size + sizeof(SlotDirectoryEntry);
 
     //TODO: add actual slot insert logic
 }

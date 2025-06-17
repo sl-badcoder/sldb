@@ -1,5 +1,5 @@
 # add tests
-set(TEST_CC tests/file_test.cc tests/replacement_test.cc)
+set(TEST_CC tests/file_test.cc tests/replacement_test.cc tests/slotted_page_test.cpp)
 
 # add tester executable
 enable_testing()
