@@ -47,8 +47,8 @@ public:
     explicit SlottedPage(uint64_t page_size);
     ~SlottedPage() = default;
     void allocate(size_t data_size);
-    void erase(TID tid);
-    void resize(TID tid, size_t data_size);
+    void erase(uint16_t slot_id);
+    void resize(uint16_t slot_id, size_t data_size);
 
     char* getData()
     {

@@ -22,3 +22,13 @@ TEST(SlottedPageTest, AllocateHeader){
     EXPECT_EQ(header.data_start, 1024 - 10);
     EXPECT_EQ(header.first_free_slot, 1);
 }
+
+TEST(SlottedPageTest, Erase)
+{
+    SlottedPage* page = new SlottedPage(1024);
+    PageHeader header = page->getHeader();
+    page->allocate(10);
+    page->erase(0);
+    EXPECT_EQ(header.first_free_slot, 0);
+    EXPECT_EQ(header.num_slots, 0);
+}
