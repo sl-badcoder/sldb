@@ -7,16 +7,19 @@
 #include <vector>
 #include <cstring>
 #include <algorithm>
+#include <iostream>
 // -------------------------------------------------------------------------------------
 
-void SlottedPage::allocate(size_t data_size)
+uint16_t SlottedPage::allocate(size_t data_size)
 {
+    uint16_t slot_id = header.first_free_slot;
     header.data_start -= data_size;
     header.first_free_slot += 1;
     header.num_slots += 1;
     header.free_space -= data_size + sizeof(SlotDirectoryEntry);
 
     //TODO: add actual slot insert logic
+    return slot_id;
 }
 
 
@@ -42,4 +45,13 @@ void SlottedPage::erase(uint16_t slot_id)
 void SlottedPage::resize(uint16_t slot_id, size_t data_size)
 {
     //TODO: get slot check if it fits on current page and then resize it
+    header.data_start -= data_size;
+    if(getSlots() != nullptr && slot_id < 0)
+    {
+        SlotDirectoryEntry* slot = reinterpret_cast<SlotDirectoryEntry*>(getSlots() + slot_id);
+        uint16_t old_size = slot->length;
+        slot->length = data_size;
+        slot->offset = header.data_start - data_size;
+        header.free_space += old_size - data_size;
+    }
 }

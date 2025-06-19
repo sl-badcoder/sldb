@@ -46,13 +46,17 @@ public:
     // -------------------------------------------------------------------------------------
     explicit SlottedPage(uint64_t page_size);
     ~SlottedPage() = default;
-    void allocate(size_t data_size);
+    uint16_t allocate(size_t data_size);
     void erase(uint16_t slot_id);
     void resize(uint16_t slot_id, size_t data_size);
 
     char* getData()
     {
         return data;
+    }
+    char* getSlots()
+    {
+        return data + sizeof(PageHeader) + header.first_free_slot * sizeof(SlotDirectoryEntry);
     }
     PageHeader getHeader()
     {
