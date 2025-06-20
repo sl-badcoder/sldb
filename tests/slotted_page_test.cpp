@@ -14,32 +14,35 @@
 //--------------------------------------------------------------------------------------
 
 TEST(SlottedPageTest, AllocateHeader){
-    SlottedPage* page = new SlottedPage(1024);
+    std::vector<std::byte> buffer;
+    buffer.resize(1024);
+    auto* page = new (&buffer[0]) SlottedPage(1024);
     page->allocate(10);
-    PageHeader header = page->getHeader();
-    EXPECT_EQ(header.free_space, 1024 - 10 - sizeof(PageHeader) - sizeof(SlotDirectoryEntry));
-    EXPECT_EQ(header.num_slots, 1);
-    EXPECT_EQ(header.data_start, 1024 - 10);
-    EXPECT_EQ(header.first_free_slot, 1);
+    EXPECT_EQ(page->header.free_space, 1024 - 10 - sizeof(PageHeader) - sizeof(SlotDirectoryEntry));
+    EXPECT_EQ(page->header.num_slots, 1);
+    EXPECT_EQ(page->header.data_start, 1024 - 10);
+    EXPECT_EQ(page->header.first_free_slot, 1);
 }
 
 TEST(SlottedPageTest, Erase)
 {
-    SlottedPage* page = new SlottedPage(1024);
+    std::vector<std::byte> buffer;
+    buffer.resize(1024);
+    auto* page = new (&buffer[0]) SlottedPage(1024);
     page->allocate(10);
     page->erase(0);
-    PageHeader header = page->getHeader();
-    EXPECT_EQ(header.first_free_slot, 0);
-    EXPECT_EQ(header.num_slots, 0);
+    EXPECT_EQ(page->header.first_free_slot, 0);
+    EXPECT_EQ(page->header.num_slots, 0);
 }
 
 TEST(SlottedPageTest, Resize)
 {
-    SlottedPage* page = new SlottedPage(1024);
+    std::vector<std::byte> buffer;
+    buffer.resize(1024);
+    auto* page = new (&buffer[0]) SlottedPage(1024);
     page->allocate(10);
     page->resize(0, 20);
-    PageHeader header = page->getHeader();
-    EXPECT_EQ(header.first_free_slot, 1);
-    EXPECT_EQ(header.num_slots, 1);
-    EXPECT_EQ(header.data_start, 1024 - 30);
+    EXPECT_EQ(page->header.first_free_slot, 1);
+    EXPECT_EQ(page->header.num_slots, 1);
+    EXPECT_EQ(page->header.data_start, 1024 - 30);
 }
