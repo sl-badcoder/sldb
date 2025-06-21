@@ -13,26 +13,21 @@ public:
     Frame() = default;
     ~Frame() = default;
 
-    void setPage(std::unique_ptr<SlottedPage> page);
-    SlottedPage* getPage();
+    void setPage(SlottedPage* page);
+    SlottedPage* getPage(){return page_;};
     [[nodiscard]] bool isOccupied() const;
-    void reset();
 
     [[nodiscard]] bool getReferenced() const { return referenced_; };
     void setReferenced(bool referenced);
     void setDirty(bool is_dirty);
 
-    std::unique_ptr<SlottedPage> releasePage()
-    {
-        return std::move(page_);
-    }
     page_id_t getPageId()
     {
         return page_no;
     }
 
 private:
-    std::unique_ptr<SlottedPage> page_;
+    SlottedPage* page_;
     page_id_t page_no;
     bool referenced_;
     bool is_dirty_;
@@ -40,26 +35,16 @@ private:
 // -------------------------------------------------------------------------------------
 // Implementations below here
 // -------------------------------------------------------------------------------------
-inline void Frame::setPage(std::unique_ptr<SlottedPage> page)
+inline void Frame::setPage(SlottedPage* page)
 {
-    page_ = std::move(page);
+    page_ = page;
     referenced_ = true;
 }
 
-inline SlottedPage* Frame::getPage()
-{
-    return page_.get();
-}
 
 inline bool Frame::isOccupied() const
 {
     return page_ != nullptr;
-}
-
-inline void Frame::reset()
-{
-    page_.reset();
-    referenced_ = true;
 }
 
 inline void Frame::setReferenced(bool referenced)

@@ -41,10 +41,11 @@ SlottedPage* BufferPoolManager::pinPage(page_id_t page_id)
         if (!frame)return nullptr;
         if (!evictPage(page_id))return nullptr;
     }
-
-    auto page = std::make_unique<SlottedPage>(page_id);
-
-    frame->setPage(std::move(page));
+    std::vector<std::byte> buffer;
+    buffer.resize(1024);
+    auto* page = new (&buffer[0]) SlottedPage(this->page_size_);
+    //std::unique_ptr<SlottedPage> page_ = page;
+    frame->setPage(page);
     page_table_[page_id] = frame;
 
     return frame->getPage();
@@ -100,12 +101,14 @@ SlottedPage* BufferPoolManager::newPage(page_id_t* page_id)
 
     *page_id = next_page_id_++;
 
-    auto new_page = std::make_unique<SlottedPage>(*page_id);
-    assert(page_id != nullptr);
-    frame->setPage(std::move(new_page));
+    std::vector<std::byte> buffer;
+    buffer.resize(1024);
+    auto* page = new (&buffer[0]) SlottedPage(this->page_size_);
+
+    frame->setPage(page);
+
     uint32_t* page_id_ = new uint32_t(*page_id);
     page_table_[*page_id_] =  frame;
-    //replacer_->frameAllocated(*page_id);
     return frame->getPage();
 }
 
@@ -122,7 +125,6 @@ bool BufferPoolManager::deletePage(page_id_t page_id)
 
     delete page;
 
-    frame->reset();
     free_list_.push_back(frame);
 
     return true;
