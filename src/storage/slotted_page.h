@@ -43,6 +43,11 @@ struct SlotDirectoryEntry
         this->offset = offset;
         this->length = length;
     }
+    void empty()
+    {
+        offset = 0;
+        length = 0;
+    }
 };
 // -------------------------------------------------------------------------------------
 struct SlottedPage

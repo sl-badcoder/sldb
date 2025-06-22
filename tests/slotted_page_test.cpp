@@ -45,4 +45,7 @@ TEST(SlottedPageTest, Resize)
     EXPECT_EQ(page->header.first_free_slot, 1);
     EXPECT_EQ(page->header.num_slots, 1);
     EXPECT_EQ(page->header.data_start, 1024 - 30);
+    auto* slot = page->getSlots() + 0;
+    EXPECT_EQ(slot->length, 20);
+    EXPECT_EQ(slot->offset, page->header.data_start);
 }

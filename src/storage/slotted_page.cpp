@@ -20,18 +20,15 @@ uint16_t SlottedPage::allocate(size_t data_size)
 
     SlotDirectoryEntry* slot = getSlots() + slot_id;
     slot->setSlot(header.data_start, data_size);
-    //TODO: add actual slot insert logic
     return slot_id;
 }
 
 
 void SlottedPage::erase(uint16_t slot_id)
 {
-    //TODO: add function to get slots and release slot
-    // iff offset and length = 0 the slot is invalid
-    SlotDirectoryEntry* slot = new SlotDirectoryEntry();
-    slot->length = 0;
-    slot->offset = 0;
+    SlotDirectoryEntry* slot = getSlots() + slot_id;
+    uint16_t old_size = slot->length;
+    slot->empty();
 
     header.num_slots -= 1;
     if(slot_id == header.first_free_slot - 1)
@@ -41,19 +38,19 @@ void SlottedPage::erase(uint16_t slot_id)
     {
         header.first_free_slot = slot_id;
     }
+    header.free_space += old_size;
 }
 
 
 void SlottedPage::resize(uint16_t slot_id, size_t data_size)
 {
-    //TODO: get slot check if it fits on current page and then resize it
     header.data_start -= data_size;
     if(getSlots() != nullptr)
     {
         SlotDirectoryEntry* slot = getSlots() + slot_id;
         uint16_t old_size = slot->length;
         slot->length = data_size;
-        slot->offset = header.data_start - data_size;
+        slot->offset = header.data_start;
         header.free_space += old_size - data_size;
     }
 }
