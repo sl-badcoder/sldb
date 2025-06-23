@@ -101,9 +101,8 @@ SlottedPage* BufferPoolManager::newPage(page_id_t* page_id)
 
     *page_id = next_page_id_++;
 
-    std::vector<std::byte> buffer;
-    buffer.resize(1024);
-    auto* page = new (&buffer[0]) SlottedPage(this->page_size_);
+    auto* raw = new std::byte[this->page_size_];
+    auto* page = new (raw) SlottedPage(this->page_size_);
 
     frame->setPage(page);
 
