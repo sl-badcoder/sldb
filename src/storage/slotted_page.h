@@ -48,6 +48,10 @@ struct SlotDirectoryEntry
         offset = 0;
         length = 0;
     }
+    [[nodiscard]] bool isEmpty () const
+    {
+        return offset == 0 && length == 0;
+    }
 };
 // -------------------------------------------------------------------------------------
 struct SlottedPage
@@ -58,12 +62,13 @@ struct SlottedPage
     uint16_t allocate(size_t data_size);
     void erase(uint16_t slot_id);
     void resize(uint16_t slot_id, size_t data_size);
+    void compactify(uint64_t page_size);
     //-------------------------------------------------------------------------------------
     std::byte *getData();
     const std::byte *getData() const;
     SlotDirectoryEntry *getSlots();
     const SlotDirectoryEntry* getSlots() const;
-    //-------------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------------
     PageHeader header;
 };
 // -------------------------------------------------------------------------------------

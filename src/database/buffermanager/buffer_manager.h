@@ -166,49 +166,5 @@ private:
     uint64_t page_size_;
 };
 // -------------------------------------------------------------------------------------
-// B-tree node disk serialization helpers with slotted page awareness
-// -------------------------------------------------------------------------------------
-class BTreeNodeSerializer
-{
-public:
-    static bool serializeNode(const BTreeNode* node, SlottedPage* page);
-    static BTreeNode* deserializeNode(const SlottedPage* page, int degree){return nullptr;};
-
-private:
-    // Helper methods for encoding/decoding node structures within slots
-    static void serializeNodeHeader(const BTreeNode* node, char* buffer, size_t* size);
-    static void serializeKeys(const BTreeNode* node, char* buffer, size_t* size);
-    static void serializeValues(const BTreeNode* node, char* buffer, size_t* size);
-    static void serializeChildren(const BTreeNode* node, char* buffer, size_t* size);
-};
-
-// -------------------------------------------------------------------------------------
-// Modified B-tree implementation that uses the buffer manager with slotted pages
-// -------------------------------------------------------------------------------------
-class DiskBTree
-{
-public:
-    DiskBTree(int degree, BufferPoolManager* buffer_pool_manager);
-    ~DiskBTree();
-
-    bool insert(const IndexKey& key, const PagePointer& value);
-    bool remove(const IndexKey& key);
-    const PagePointer* search(const IndexKey& key) const;
-
-private:
-    int degree_;
-    page_id_t root_page_id_;
-    BufferPoolManager* buffer_pool_manager_;
-
-    // Helper methods to work with nodes via the buffer pool
-    BTreeNode* fetchNode(page_id_t page_id) const;
-    void unpinNode(BTreeNode* node, bool is_dirty) const;
-    BTreeNode* createNewNode(BTreeNode::NodeType type);
-    bool deleteNode(page_id_t page_id);
-
-    // Modified to map node pages to slot IDs for node components
-    //std::unordered_map<page_id_t, std::vector<SlotId>> node_component_map_;
-};
-// -------------------------------------------------------------------------------------
 #endif //SLDB_DATABASE_BUFFER_MANAGER_H
 // -------------------------------------------------------------------------------------
