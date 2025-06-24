@@ -5,6 +5,8 @@ add_library(bufferlib
         src/database/datastructures/indexing.cpp
         src/storage/slotted_page.cpp
         src/sldb.cpp
+        src/storage/sp_segment.h
+        src/storage/sp_segment.cpp
 )
 
 target_include_directories(bufferlib PUBLIC
