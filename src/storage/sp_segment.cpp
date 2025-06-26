@@ -1,7 +1,7 @@
 //
 // Created by Senad Lemes Galera on 24.06.25.
 //
-#include "sp_segment.h"
+#include "segment.h"
 
 void SP_SEGMENT::erase(TID tid)
 {

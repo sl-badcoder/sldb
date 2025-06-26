@@ -18,4 +18,12 @@ struct SP_SEGMENT{
     uint64_t segment_id;
 };
 
+
+struct FSI_SEGMENT
+{
+    page_id_t find(uint64_t data_size);
+    uint8_t encode(uint32_t free_space);
+    uint32_t decode(uint8_t free_space);
+    uint64_t segment_id;
+};
 #endif //SP_SEGMENT_H
